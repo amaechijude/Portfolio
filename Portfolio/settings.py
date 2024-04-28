@@ -71,25 +71,15 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-CORS_ORIGIN_ALLOW_ALL = False
+#CORS_ALLOWED_ORIGINS
 
-CORS_ORIGIN_WHITELIST = (
-  'http://localhost:8000',
-  'https://*.railway.app',
-  'http://*.railway.app',
-  'http://*.onrender.com',
-  'https://*.onrender.com',
-  )
+#CORS_ALLOWED_ORIGIN_REGEXES =
 
-CSRF_TRUSTED_ORIGINS = [
-'https://*.railway.app',
-'http://*.railway.app',
-'http://*.onrender.com',
-'https://*.onrender.com',
-]
+CORS_ALLOW_ALL_ORIGINS = config('CORS', cast=bool)
 
-CSRF_COOKIE_SECURE = True
-SESSION_COOKIE_SECURE = True
+CSRF_COOKIE_SECURE = config('CSRF_COOKIE', cast=bool)
+
+SESSION_COOKIE_SECURE = config('SESSION_COOKIE', cast=bool)
 
 ROOT_URLCONF = 'Portfolio.urls'
 
