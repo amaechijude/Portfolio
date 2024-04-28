@@ -53,7 +53,6 @@ INSTALLED_APPS = [
     'corsheaders',
     'cloudinary_storage',
     'cloudinary',
-    'rest_framework',
     'gunicorn',
     'django_unused_media',
 
@@ -100,7 +99,6 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'Portfolio.wsgi.application'
-
 
 # Database
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
