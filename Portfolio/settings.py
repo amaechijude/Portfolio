@@ -50,11 +50,19 @@ INSTALLED_APPS = [
     'webapp',
 
     #third party
+    'corsheaders',
+    'cloudinary_storage',
+    'cloudinary',
+    'rest_framework',
+    'gunicorn',
+    'django_unused_media',
 
 ]
 
 MIDDLEWARE = [
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.security.SecurityMiddleware',
+    "whitenoise.middleware.WhiteNoiseMiddleware",
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -62,6 +70,26 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
+
+CORS_ORIGIN_ALLOW_ALL = False
+
+CORS_ORIGIN_WHITELIST = (
+  'http://localhost:8000',
+  'https://*.railway.app',
+  'http://*.railway.app',
+  'http://*.onrender.com',
+  'https://*.onrender.com',
+  )
+
+CSRF_TRUSTED_ORIGINS = [
+'https://*.railway.app',
+'http://*.railway.app',
+'http://*.onrender.com',
+'https://*.onrender.com',
+]
+
+CSRF_COOKIE_SECURE = True
+SESSION_COOKIE_SECURE = True
 
 ROOT_URLCONF = 'Portfolio.urls'
 
@@ -87,13 +115,27 @@ WSGI_APPLICATION = 'Portfolio.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
 
-DATABASES = {
+"""DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
         'NAME': BASE_DIR / 'db.sqlite3',
     }
-}
+}"""
 
+DATABASES = {
+    'default': {
+        'ENGINE': config('DATABASE_ENGINE'),
+        'NAME': config('DATABASE_NAME'),
+        'USER': config('DATABASE_USER'),
+        'PASSWORD': config('DATABASE_PASSWORD'),
+        'HOST': config('DATABASE_HOST'),
+        #'PORT': config('DATABASE_PORT', 5432),
+        'OPTIONS': {
+            'sslmode': 'require',
+            },
+        'DISABLE_SERVER_SIDE_CURSORS': True,
+        }
+    }
 
 # Password validation
 # https://docs.djangoproject.com/en/5.0/ref/settings/#auth-password-validators
@@ -132,6 +174,8 @@ USE_TZ = True
 STATIC_URL = 'static/'
 STATIC_ROOT = BASE_DIR/'static'
 
+# White noise file storage
+STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
 
 MEDIA_URL = '/port/'
 MEDIA_ROOT = os.path.join(BASE_DIR,'port')
@@ -142,16 +186,17 @@ MEDIA_ROOT = os.path.join(BASE_DIR,'port')
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # Cloudinary Storage
-"""DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
+DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
 
 CLOUDINARY_STORAGE = {
     'CLOUD_NAME': config('CLOUD_NAME'),
     'API_KEY': config('CLOUD_API_KEY'),
     'API_SECRET': config('API_SECRET'),
     }
+
 cloudinary.config(
   cloud_name = config('CLOUD_NAME'),
   api_key = config('CLOUD_API_KEY'),
   api_secret = config('API_SECRET'),
   secure = config('CLOUD_SECURE', cast=bool)
-    )"""
+    )
