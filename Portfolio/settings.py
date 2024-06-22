@@ -15,10 +15,10 @@ import os
 
 #third party
 from decouple import config
-import cloudinary
-import cloudinary.uploader
-import cloudinary.api
-import cloudinary_storage
+# import cloudinary
+# import cloudinary.uploader
+# import cloudinary.api
+# import cloudinary_storage
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -51,10 +51,10 @@ INSTALLED_APPS = [
 
     #third party
     'corsheaders',
-    'cloudinary_storage',
-    'cloudinary',
+    # 'cloudinary_storage',
+    # 'cloudinary',
     'gunicorn',
-    'django_unused_media',
+    # 'django_unused_media',
 
 ]
 
@@ -110,20 +110,20 @@ WSGI_APPLICATION = 'Portfolio.wsgi.application'
     }
 }"""
 
-DATABASES = {
-    'default': {
-        'ENGINE': config('DATABASE_ENGINE'),
-        'NAME': config('DATABASE_NAME'),
-        'USER': config('DATABASE_USER'),
-        'PASSWORD': config('DATABASE_PASSWORD'),
-        'HOST': config('DATABASE_HOST'),
-        #'PORT': config('DATABASE_PORT', 5432),
-        'OPTIONS': {
-            'sslmode': 'require',
-            },
-        'DISABLE_SERVER_SIDE_CURSORS': True,
-        }
-    }
+# DATABASES = {
+#     'default': {
+#         'ENGINE': config('DATABASE_ENGINE'),
+#         'NAME': config('DATABASE_NAME'),
+#         'USER': config('DATABASE_USER'),
+#         'PASSWORD': config('DATABASE_PASSWORD'),
+#         'HOST': config('DATABASE_HOST'),
+#         #'PORT': config('DATABASE_PORT', 5432),
+#         'OPTIONS': {
+#             'sslmode': 'require',
+#             },
+#         'DISABLE_SERVER_SIDE_CURSORS': True,
+#         }
+#     }
 
 # Password validation
 # https://docs.djangoproject.com/en/5.0/ref/settings/#auth-password-validators
@@ -173,18 +173,31 @@ MEDIA_ROOT = os.path.join(BASE_DIR,'port')
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
+# Email Backend
+EMAIL_BACKEND = config('EMAIL_BACKEND')
+EMAIL_HOST = config('EMAIL_HOST')
+EMAIL_HOST_USER = config('EMAIL_HOST_USER')
+EMAIL_HOST_PASSWORD = config('EMAIL_HOST_PASSWORD')
+EMAIL_PORT = config('EMAIL_PORT', cast=int)
+EMAIL_USE_TLS = config('EMAIL_USE_TLS', cast=bool)
+
+
+
+
+
 # Cloudinary Storage
-DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
+# DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
 
-CLOUDINARY_STORAGE = {
-    'CLOUD_NAME': config('CLOUD_NAME'),
-    'API_KEY': config('CLOUD_API_KEY'),
-    'API_SECRET': config('API_SECRET'),
-    }
+# CLOUDINARY_STORAGE = {
+#     'CLOUD_NAME': config('CLOUD_NAME'),
+#     'API_KEY': config('CLOUD_API_KEY'),
+#     'API_SECRET': config('API_SECRET'),
+#     }
 
-cloudinary.config(
-  cloud_name = config('CLOUD_NAME'),
-  api_key = config('CLOUD_API_KEY'),
-  api_secret = config('API_SECRET'),
-  secure = config('CLOUD_SECURE', cast=bool)
-    )
+# cloudinary.config(
+#   cloud_name = config('CLOUD_NAME'),
+#   api_key = config('CLOUD_API_KEY'),
+#   api_secret = config('API_SECRET'),
+#   secure = config('CLOUD_SECURE', cast=bool)
+#     )
+
