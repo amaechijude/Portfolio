@@ -20,6 +20,13 @@ def feedback_mail(name, email, topic, message,):
         )
 
 
+def ip(request):
+    x_forwarded_for = request.META.get('HTTP_X_FORWARDED_FOR')
+    if x_forwarded_for:
+        ip = x_forwarded_for.split(',')[0]
+    else:
+        ip = request.META.get('REMOTE_ADDR')
+        return ip
 
 def index(request):
     if request.method == 'POST':
@@ -40,5 +47,9 @@ def index(request):
                 return redirect('index.html')
    
     form = FeedbackForm()
-    context = {"form":form}
+    context = {"form":form,"ip":ip(request)}
     return render(request, 'index.html',context)
+
+
+def blogs(request):
+    return render(request, 'blog.html')
