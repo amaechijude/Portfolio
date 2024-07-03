@@ -6,6 +6,9 @@ from.forms import FeedbackForm
 
 from django.conf import settings
 from django.core.mail import send_mail
+
+import requests
+import json
 # Create your views here.
 
 def feedback_mail(name, email, topic, message,):
@@ -19,14 +22,15 @@ def feedback_mail(name, email, topic, message,):
             fail_silently=False
         )
 
+def get():
+    endpoint = 'https://ipinfo.io/json'
+    response = requests.get(endpoint, verify = True)
 
-def ip(request):
-    x_forwarded_for = request.META.get('HTTP_X_FORWARDED_FOR')
-    if x_forwarded_for:
-        ip = x_forwarded_for.split(',')[0]
+    if response.status_code != 200:
+        return None
     else:
-        ip = request.META.get('REMOTE_ADDR')
-        return ip
+        data = response.json()
+        return data['ip']
 
 def index(request):
     if request.method == 'POST':
@@ -47,7 +51,7 @@ def index(request):
                 return redirect('index.html')
    
     form = FeedbackForm()
-    context = {"form":form,"ip":ip(request)}
+    context = {"form":form,"ip":get()}
     return render(request, 'index.html',context)
 
 
