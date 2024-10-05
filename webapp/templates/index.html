@@ -14,17 +14,12 @@
         integrity="sha512-1ycn6IcaQQ40/MKBW2W4Rhis/DbILU74C1vSrLJxCq57o941Ym01SwNsOMqvEBFlcgUa6xLiPY/NS5R+E6ztJQ=="
         crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap">
+    <link rel="shortcut icon" href="{% static 'img/icon.jpg' %}" type="image/x-icon">
 </head>
 
 <body class="main-content">
     <header class="container header active" id="home">
-        <p style="color:red; margin-bottom:-5px">
-            {% if messages %}
-            {% for message in messages %}
-            <strong>{{ message }}</strong>
-            {% endfor %}
-            {% endif%}
-        </p>
+        
         <div class="header-content">
             <div class="left-header">
                 <div class="h-shape"></div>
@@ -225,6 +220,7 @@
                 <div class="main-title">
                     <h2>Contact <span>Me</span><span class="bg-text">Contact</span></h2>
                 </div>
+               
                 <div class="contact-content-con">
                     <div class="left-contact">
                         <h4>Contact me here</h4>
@@ -319,9 +315,12 @@
                                 {{ form.messageBody }}<br>
                             </div>
                             <div class="input-control">
-                                <input type="submit" name="Send" style="background-color: green">
+                                <input type="submit" name="Send" value="Submit" style="background-color: green">
                             </div>
                         </form>
+                        <div id="topBar" class="top-bar">
+                            This is a notification bar!
+                        </div>
                         <div class="submit-btn">
                             <a href="https://drive.google.com/file/d/1QbU8_290P9LrPZbSYMyJJe4rPHn9gpgH/view?usp=sharing"
                                 target="_blank" class="main-btn">
@@ -388,27 +387,6 @@
         </svg>
         <!--<i class="fas fa-adjust"></i>-->
     </div>
-    <script>
-	    const mailForm = document.getElementById("mailForm");
-	    mailForm.addEventListener("submit", async (event) => {
-		event.preventDefault();
-		const formData = new FormData(mailForm);
-		try {
-			const response = await fetch("/mail_view", {
-				method: 'POST',
-				body: formData
-			});
-			const data = await response.json();
-			alert(data.message);
-		} catch {
-			alert("Server Error");
-		} finally {
-			mailForm.reset();
-		}
-	    });
-
-    </script>
- 
     <script src="{% static 'script/app.js' %}"></script>
     
 </body>
